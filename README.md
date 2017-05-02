@@ -27,9 +27,6 @@
 
 #### 1. Dataset summary:
 
-I used the pandas library to calculate summary statistics of the traffic
-signs data set:
-
 * The size of training set contains 34,799 images
 * The size of the validation set contains 4,410 images
 * The size of test set contains 12,630 images
@@ -38,7 +35,7 @@ signs data set:
 
 #### 2. Include an exploratory visualization of the dataset.
 
-Here is a boxplot showing the distribution of images in each of the classes; some classes are represented by as few as 200 examples while others have nearly if not more than 2000:
+Here is a boxplot showing the distribution of images in each of the classes; some classes are represented by as few as 200 examples while others have nearly, if not more, than 2000:
 
 ![alt text][image1]
 
@@ -59,9 +56,9 @@ Additional data was created by adding some random rotation and scaling factors t
 
 The resultant dataset contains 223,760 images.
 
-This dataset was then preprocessed. Given the results in [Sermanet & Lecun's paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf), it seemed unneccessary to use all three channels, so images were translated into grayscale using scikit-image. Further, the contrast for many of the images seemed to vary a lot - the range of pixel values represented were not constant. Some images were far brighter, other far darker. To remedy this variation, I tried using three different methods within [scikit-image's exposure class](http://scikit-image.org/docs/dev/api/skimage.exposure.html): rescale\_intensity, equalize\_hist, and equalize\_adapthist. After some trials, the equalize\_adapthist method seemed to provide the best results.
+This dataset was then preprocessed. Given the results in [Sermanet & Lecun's paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf), it seemed unneccessary to use all three channels, so images were translated into grayscale using scikit-image. Further, the contrast for many of the images seemed to vary a lot - the range of pixel values represented were not constant across images. Some images were far brighter, others far darker. To remedy this variation, I tried using three different methods within [scikit-image's exposure class](http://scikit-image.org/docs/dev/api/skimage.exposure.html): rescale\_intensity, equalize\_hist, and equalize\_adapthist. After some trials, the equalize\_adapthist method seemed to provide the best results.
 
-Finally, the data was scaled between [-0.5,+0.5] by subtracting and then dividing by 128. This seemed like a reasonable simple method to employ because the equalize\_adapthist method has the effect of standardizing the range of pixel values represented in an image.
+Finally, the data was scaled between [-0.5,+0.5] by subtracting and then dividing by 128. This seemed like a reasonable method to employ because the equalize\_adapthist method has the effect of standardizing the range of pixel values represented in an image.
 
 
 #### 2. Model Architecture
@@ -74,12 +71,12 @@ The model utilizes 3 convulutional neural net layers as well as 2 fully connecte
 
 The code for the architecture is laid out in *In[22]*. 
 
-#### 3. Model Training, Parameters Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Model Training, (Hyper)Parameter Selections
 
 The model was tested using the following sets of hyperparameters & optimizers; those utilized are in **bold**:
 * Optimizers: [MomentumOptimizer, **AdamOptimizer**]
-* Batch\_sizes: [64, 128, 192, 256]
-* Learning\rates: [0.1, 0.01, 0.005, 0.001, 0.0005, 0.0001]
+* Batch\_sizes: [64, 128, 192, **256**]
+* Learning\rates: [0.1, 0.01, 0.005, 0.001, **0.0005**, 0.0001]
 * Epochs: variable, depending on when the model seemed to stop improving the prediction accuracy on the validation set
 * Activation Functions: [ReLU, **ELU**]
 * Dropout: [Not Used; Used, where keep\_prob: [0.75, 0.5], [1.0, 0.5], [0.75, 0.5], [1.0, 0.75]]
@@ -96,17 +93,17 @@ Final model results:
 
 Training and Validation accuracies were calculated in *In/Out[26]* as the model was being trained. The Test set accuracy was calculated in *In/Out[27]
 
-I first made sure the base LeNet model yielded a validation and test set accuracy of ~89%. After that, I was unclear of how to go about improving the architecture, but knew that it needed to be able to handle the added complexity of dealing with 43 classes of traffic signs versus 10 different handwritten digits.
+I first made sure the base LeNet model yielded a validation and test set accuracy of ~89%. After that, I was unclear of how to go about improving the architecture, but knew that it needed to be able to handle the added complexity of dealing with 43 classes of traffic signs rather than only 10 different handwritten digits.
 
-I turned to a forum post which led me to several forum posts as well as a couple papers (referenced below). It seemed like a multi-scale cnn approach was garnering success, so I decided to implement such an architecture. As opposed to normal ConvNets, multi-scale cnn's pass through outputs from different layers to other layers furhter down in the architecture. In this case, outputs from the three CNN layers were fed into a final, fully-connected neural network. 
+I turned to a forum post which led me to several blog posts as well as a few papers (referenced below). It seemed like a multi-scale cnn approach was garnering success, so I decided to implement such an architecture. As opposed to normal ConvNets, multi-scale CNNs pass through outputs from different CNN layers to other layers furhter down in the architecture. In this case, outputs from the three CNN layers were fed into a final, fully-connected neural network. 
 
-This particular architecture seems rather amenable to image classification because of its chained and multi-scale implementation of CNNs, in addition to other regularization and activation methods. CNNs provide a powerful way of parsing an image into patterns of features. Three levels were chosen such that different scopes of an image's details and patterns would have a chance to be represented in the model (i.e. edges, shapes, letters and larger patterns). This type of architecture's success also seemed to be well documented in various references (see below). 
+This particular architecture seems rather amenable to image classification because of its chained and multi-scale implementation of CNNs, in addition to other regularization and activation methods. CNNs provide a powerful way of parsing an image into patterns of features. Three levels of CNN layers were chosen such that different scopes of an image's details and characteristics would have a chance to be represented in the model (i.e. edges, shapes, letters and larger patterns). This type of architecture's success also seemed to be well documented in various references (see below). 
 
 After a base architecture was chosen (which I named LeSermaNet after Sermanet & Lecun) I tried different values for the various hyperparameters (outlined in #3 above) as well as CNN filter and NN depths .
 
-The depth of the various levels were chosen rather arbitrarily but seem to work out well enough. 
+The depth of the various levels were chosen rather arbitrarily but seemed to work out well enough. 
 
-The model does overfit a bit in later epochs, once the accuracy of the validation set reaches ~96%; therefore, it may do well to reduce the model's complexity some or add some additional regularization (either via dropout for the CNN layers or via implementation of l2\_regularization). Either that, or it might help to generate even more data to see if that helps stem overfitting.
+The model does overfit a bit in later epochs - once the accuracy of the validation set reaches ~97%; therefore, it may do well to reduce the model's complexity some or add some additional regularization (either via dropout for the CNN layers or via implementation of l2\_regularization). Either that, or it might help to generate even more data to see if that helps stem overfitting.
 
 ---
 
@@ -118,7 +115,7 @@ Here are five German traffic signs that I grabbed from screenshots of Google Str
 
 ![alt text][image4]
 
-The 'General Caution', 'Priority Road' and 'Speed limit (30 km/h)' signs all have other signs adjacent to them; the 'Keep Right' sign is taken from an angle, so the sign seems more ovular; the 'Speed limit (30 km/h)' sign also has some shadows strewn across its left-side. All these factors may detract from the models ability to successfully classify each image.
+Some observations: the 'General Caution', 'Priority Road' and 'Speed limit (30 km/h)' signs all have other signs adjacent to them; the 'Keep Right' sign is taken from an angle, so the sign seems more ovular; the 'Speed limit (30 km/h)' sign also has some shadows strewn across its left-side. All these factors may detract from the models ability to successfully classify each image.
 
 #### 2. Model Predictions for the Five Traffic Signs from Google Streetview
 
