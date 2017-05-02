@@ -4,7 +4,7 @@
 
 ### **Victor Roy**
 
-[project code](https://github.com/soniccrhyme/SDND-Project_2)
+[GitHub Link](https://github.com/soniccrhyme/SDND-Project_2)
 
 ---
 
@@ -24,13 +24,13 @@ The goals / steps of this project are the following:
 [image1]: ./graphics/train-count_boxplot.png "Count in Train Boxplot"
 [image2]: ./graphics/rand-images.png "Sample of Images"
 [image3]: ./graphics/model_architecture.png "Model Architecture"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image4]: ./graphics/custom_roadsigns.png "German Traffic Signs taken from Google Streetview"
+[image5]: ./german_roadsigns/test_sign_2.png "Traffic Sign 2"
+[image6]: ./german_roadsigns/test_sign_3.png "Traffic Sign 3"
+[image7]: ./german_roadsigns/test_sign_4.png "Traffic Sign 4"
+[image8]: ./german_roadsigns/test_sign_5.png "Traffic Sign 5"
 
---
+---
 
 ### Data Set Summary & Exploration
 
@@ -47,9 +47,13 @@ signs data set:
 
 #### 2. Include an exploratory visualization of the dataset.
 
-Here is a boxplot showing the distribution of images in each of the classes. Some classes are represented by as few as 200 examples while others have nearly if not more than 2000. 
+Here is a boxplot showing the distribution of images in each of the classes; some classes are represented by as few as 200 examples while others have nearly if not more than 2000:
 
 ![alt text][image1]
+
+Here is an example of some randomly selected images and their respective classes:
+![alt text][image2] 
+
 
 ### Design and Test a Model Architecture
 
@@ -68,19 +72,19 @@ This dataset was then preprocessed. Given the results in [Sermanet & Lecun's pap
 Finally, the data was scaled between [-0.5,+0.5] by subtracting and then dividing by 128. This seemed like a reasonable simple method to employ because the equalize\_adapthist method has the effect of standardizing the range of pixel values represented in an image.
 
 
-#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+#### 2. Model Architecture
 
 The architecture for my model draws inspiration from [Sermanet & Lecun's paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) as well as [Alex Staravoitau's work](http://navoshta.com/traffic-signs-classification/) and is detailed in the graphic below:
 
+![alt text][image3]
 
- 
+The model utilizes 3 convulutional neural net layers as well as 2 fully connected neural nets. Following Sermanet & Lecun, the outputs from the first two CNNs are also used as inputs into the first fully connected layer. Furthermore, ELU was used as the activation function; this was chosen based on the improvements given by ELU over ReLU as depicted in [Mishkin et al (2016)](https://arxiv.org/pdf/1606.02228.pdf). 
 
-
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Model Training, Parameters Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
 To train the model, I used an ....
 
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+#### 4. Model Training, Discussion Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
 * training set accuracy of ?
@@ -102,14 +106,13 @@ If a well known architecture was chosen:
 
 ### Test a Model on New Images
 
-#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### 1. Five Arbitrarily Chosen German Traffic Signs
 
-Here are five German traffic signs that I found on the web:
+Here are five German traffic signs that I grabbed from screenshots of Google Streetview in the town of Nuremburg (in honor of the Nurburgring; afterall this is a class about cars). 
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image4] 
 
-The first image might be difficult to classify because ...
+The 'General Caution', 'Priority Road' and 'Speed limit (30 km/h)' signs all have other signs adjacent to them; the 'Keep Right' sign is taken from an angle, so the sign seems more ovular; the 'Speed limit (30 km/h)' sign also has some shadows strewn across its left-side. All these factors may detract from the models ability to successfully classify each image.
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
