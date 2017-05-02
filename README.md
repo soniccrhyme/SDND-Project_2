@@ -1,6 +1,7 @@
-# **README**
+## **README**
+---
 
-## **Traffic Sign Recognition**
+## **Traffic Sign Recognition Classifier using Convolutional Neural Nets**
 
 ### **Victor Roy**
 
