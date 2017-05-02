@@ -23,7 +23,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./graphics/train-count_boxplot.png "Count in Train Boxplot"
 [image2]: ./graphics/rand-images.png "Sample of Images"
-[image3]: ./examples/random_noise.jpg "Random Noise"
+[image3]: ./graphics/model_architecture.png "Model Architecture"
 [image4]: ./examples/placeholder.png "Traffic Sign 1"
 [image5]: ./examples/placeholder.png "Traffic Sign 2"
 [image6]: ./examples/placeholder.png "Traffic Sign 3"
@@ -53,42 +53,26 @@ Here is a boxplot showing the distribution of images in each of the classes. Som
 
 ### Design and Test a Model Architecture
 
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+#### 1. Augmenting and Preprocessing Data
 
-As a first step, I decided to convert the images to grayscale because ...
+The dataset has uneven representation across classes and not as many examples as might be required to train a successful model. It thus seemed prudent to augment the dataset. 
 
-Here is an example of a traffic sign image before and after grayscaling.
+Some image classes, such as 'General Caution' or 'Priority Road' could be flipped across the vertical access and still be part of the same class. For images in other classes, such as 'Keep Left/Right' or 'Turn left/right ahead' could be similarly flipped with the result belonging to a complementary class. Inspiration for this was taken from [Alex Staravoitau's work](http://navoshta.com/traffic-signs-classification/).
 
-![alt text][image2]
+Additional data was created by adding some random rotation and scaling factors to existing images. More images were created for less well-represented classes. The goal was to get at least 2000 images per class. By using the scikit-image library, I was able to transform each image into *n* number of additional images by randomly adjusting scale, rotation and gamma (i.e. brightness). 
 
-As a last step, I normalized the image data because ...
+The resultant dataset had 223,760 images. 
 
-I decided to generate additional data because ... 
+This dataset was then preprocessed. Given the results in [Sermanet & Lecun's paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf), it seemed unneccessary to use all three channels, so images were translated into grayscale using scikit-image. Further, the contrast for many of the images seemed to vary a lot - the range of pixel values represented were not constant. Some images were far brighter, other far darker. To remedy this variation, I tried using three different methods within [scikit-image's exposure class](http://scikit-image.org/docs/dev/api/skimage.exposure.html): rescale\_intensity, equalize\_hist, and equalize\_adapthist. After some trials, the equalize\_adapthist method seemed to provide the best results. 
 
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
+Finally, the data was scaled between [-0.5,+0.5] by subtracting and then dividing by 128. This seemed like a reasonable simple method to employ because the equalize\_adapthist method has the effect of standardizing the range of pixel values represented in an image.
 
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My final model consisted of the following layers:
+The architecture for my model draws inspiration from [Sermanet & Lecun's paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) as well as [Alex Staravoitau's work](http://navoshta.com/traffic-signs-classification/) and is detailed in the graphic below:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+
  
 
 
