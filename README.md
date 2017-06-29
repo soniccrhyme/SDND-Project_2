@@ -6,9 +6,6 @@
 
 [GitHub Link](https://github.com/soniccrhyme/SDND-Project_2)
 
----
-
-
 [//]: # (Image References)
 
 [image1]: ./graphics/train-count_boxplot.png "Count in Train Boxplot"
