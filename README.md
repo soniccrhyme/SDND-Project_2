@@ -4,7 +4,7 @@
 
 #### **Victor Roy**
 
-[GitHub Link](https://github.com/soniccrhyme/SDND-Project_2)
+[GitHub Link](https://github.com/soniccrhyme/SDND-Traffic_Sign_Classifier)
 
 [//]: # (Image References)
 
