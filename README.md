@@ -1,9 +1,8 @@
 ## **README**
----
 
-## **Traffic Sign Recognition Classifier using Convolutional Neural Nets**
+### **Traffic Sign Recognition Classifier using Convolutional Neural Nets**
 
-### **Victor Roy**
+#### **Victor Roy**
 
 [GitHub Link](https://github.com/soniccrhyme/SDND-Project_2)
 
@@ -69,7 +68,7 @@ The architecture for my model draws inspiration from [Sermanet & Lecun's paper](
 
 The model utilizes 3 convulutional neural net layers as well as 2 fully connected neural nets. Following Sermanet & Lecun, the outputs from the three CNNs are also used as inputs into the first fully connected layer. Furthermore, ELU was used as the activation function; this was chosen based on the improvements given by ELU over ReLU as depicted in [Mishkin et al (2016)](https://arxiv.org/pdf/1606.02228.pdf) & [Clevert et al (2016)](https://arxiv.org/abs/1511.07289).
 
-The code for the architecture is laid out in *In[22]*. 
+The code for the architecture is laid out in *In[22]*.
 
 #### 3. Model Training, (Hyper)Parameter Selections
 
@@ -81,7 +80,7 @@ The model was tested using the following sets of hyperparameters & optimizers; t
 * Activation Functions: [ReLU, **ELU**]
 * Dropout: [Not Used; Used, where keep\_prob: [0.75, 0.5], [1.0, 0.5], [0.75, 0.5], [1.0, 0.75]]
 
-Ideally (i.e. as in scikit-learn) I would be able to utilize a GridSearchCV or RandomizedSearchCV wrapper to test various combinations of hyperparameters. Since this option wasn't readily available, I manually tested various combinations of hyperparameters as well as activation and regularization methods. For the learning\_rate I used a coarse-to-fine search, where I tried factors of 10 and then, upon finding one that worked best, tried to hone in on the most appropriate learning\_rate. This was especially time consuming because adjusting different filters, the number of layers or the optimizer would change the scope of the most effective learning rate. 
+Ideally (i.e. as in scikit-learn) I would be able to utilize a GridSearchCV or RandomizedSearchCV wrapper to test various combinations of hyperparameters. Since this option wasn't readily available, I manually tested various combinations of hyperparameters as well as activation and regularization methods. For the learning\_rate I used a coarse-to-fine search, where I tried factors of 10 and then, upon finding one that worked best, tried to hone in on the most appropriate learning\_rate. This was especially time consuming because adjusting different filters, the number of layers or the optimizer would change the scope of the most effective learning rate.
 
 
 #### 4. Model Training, Discussion
@@ -95,13 +94,13 @@ Training and Validation accuracies were calculated in *In/Out[26]* as the model 
 
 I first made sure the base LeNet model yielded a validation and test set accuracy of ~89%. After that, I was unclear of how to go about improving the architecture, but knew that it needed to be able to handle the added complexity of dealing with 43 classes of traffic signs rather than only 10 different handwritten digits.
 
-I turned to a forum post which led me to several blog posts as well as a few papers (referenced below). It seemed like a multi-scale cnn approach was garnering success, so I decided to implement such an architecture. As opposed to normal ConvNets, multi-scale CNNs pass through outputs from different CNN layers to other layers furhter down in the architecture. In this case, outputs from the three CNN layers were fed into a final, fully-connected neural network. 
+I turned to a forum post which led me to several blog posts as well as a few papers (referenced below). It seemed like a multi-scale cnn approach was garnering success, so I decided to implement such an architecture. As opposed to normal ConvNets, multi-scale CNNs pass through outputs from different CNN layers to other layers furhter down in the architecture. In this case, outputs from the three CNN layers were fed into a final, fully-connected neural network.
 
-This particular architecture seems rather amenable to image classification because of its chained and multi-scale implementation of CNNs, in addition to other regularization and activation methods. CNNs provide a powerful way of parsing an image into patterns of features. Three levels of CNN layers were chosen such that different scopes of an image's details and characteristics would have a chance to be represented in the model (i.e. edges, shapes, letters and larger patterns). This type of architecture's success also seemed to be well documented in various references (see below). 
+This particular architecture seems rather amenable to image classification because of its chained and multi-scale implementation of CNNs, in addition to other regularization and activation methods. CNNs provide a powerful way of parsing an image into patterns of features. Three levels of CNN layers were chosen such that different scopes of an image's details and characteristics would have a chance to be represented in the model (i.e. edges, shapes, letters and larger patterns). This type of architecture's success also seemed to be well documented in various references (see below).
 
 After a base architecture was chosen (which I named LeSermaNet after Sermanet & Lecun) I tried different values for the various hyperparameters (outlined in #3 above) as well as CNN filter and NN depths .
 
-The depth of the various levels were chosen rather arbitrarily but seemed to work out well enough. 
+The depth of the various levels were chosen rather arbitrarily but seemed to work out well enough.
 
 The model does overfit a bit in later epochs - once the accuracy of the validation set reaches ~97%; therefore, it may do well to reduce the model's complexity some or add some additional regularization (either via dropout for the CNN layers or via implementation of l2\_regularization). Either that, or it might help to generate even more data to see if that helps stem overfitting.
 
@@ -123,11 +122,11 @@ Here are the results of the prediction:
 
 ![alt text][image5]
 
-The model was able to correctly guess 5 of the 5 traffic signs, a perfect 100% accuracy rate. Classification of this small arbitrarily chosen sample outperforms that of the test set. I imagine that these images were relatively more easy to classify than others in the test set because of their source. Google generates its Streetview models on days which seem to be clear and bright. The visibility of all the signs was thus better than many of the other images contained within the dataset. 
+The model was able to correctly guess 5 of the 5 traffic signs, a perfect 100% accuracy rate. Classification of this small arbitrarily chosen sample outperforms that of the test set. I imagine that these images were relatively more easy to classify than others in the test set because of their source. Google generates its Streetview models on days which seem to be clear and bright. The visibility of all the signs was thus better than many of the other images contained within the dataset.
 
-#### 3. Softmax Probabilities for the Five Traffic Signs from Google Streetview 
+#### 3. Softmax Probabilities for the Five Traffic Signs from Google Streetview
 
-Here are the Softmax-derived probabilities of the top 5 classes. As you can see, the model dealt with these categories pretty well, with > 99.9% confidence for each of the images. There must be other classes this model does less well with, possibly correlated with classes less well represented in the training set. I would create a bar chart, but it doesn't seem as if those charts would readily communicate any further information. 
+Here are the Softmax-derived probabilities of the top 5 classes. As you can see, the model dealt with these categories pretty well, with > 99.9% confidence for each of the images. There must be other classes this model does less well with, possibly correlated with classes less well represented in the training set. I would create a bar chart, but it doesn't seem as if those charts would readily communicate any further information.
 
 Actual Class for Sign - 18: General caution
                            Class  Probability
@@ -186,5 +185,3 @@ Mishkin, Dmytro et al. June 13, 2016. "Systematic evaluation of CNN advances on 
 Sermanet, Pierre and Yann LeCun. 2011. Traffic Sign Classification and Multi-Scale Convolutional Networks. [http://ieeexplore.ieee.org/document/6033589/](http://ieeexplore.ieee.org/document/6033589/).
 
 Staravoitau, Alex. January 15, 2017. "Traffic signs classification with a convolutional network". [http://navoshta.com/traffic-signs-classification/](http://navoshta.com/traffic-signs-classification/)
-
-
